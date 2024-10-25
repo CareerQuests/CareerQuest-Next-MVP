@@ -4,14 +4,14 @@
   "description": "Career Quest is a platform for students to find their dream career",
   "icons": [
     {
-      "src": "/compass-regular.svg",
+      "src": "/compass-regular.png",
       "sizes": "192x192",
-      "type": "image/svg+xml"
+      "type": "image/png"
     },
     {
-      "src": "/compass-regular.svg",
+      "src": "/compass-regular.png",
       "sizes": "512x512",
-      "type": "image/svg+xml"
+      "type": "image/png"
     }
   ],
   "start_url": "/",
