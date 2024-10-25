@@ -1,9 +1,8 @@
-import Image from "next/image";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import SearchCareer from "../components/SearchCareer";
-import Testimonial from "../components/Testimonial";
-import Flow from "../components/Flow";
+import Flow from "./components/Flow";
+import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
+import SearchCareer from "./components/SearchCareer";
+import Testimonial from "./components/Testimonial";
 
 export default function Home() {
   return (
