@@ -42,7 +42,7 @@ const Navbar = () => {
               <NavLink href="/career">Find Your Path</NavLink>
               {/* <NavLink href="#about">About</NavLink> */}
               {/* <NavLink href="#contact">Contact</NavLink> */}
-              <button className="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition-colors">
+              <button className="bg-blue-900 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition-colors">
                 Take Assessment
               </button>
             </div>
@@ -70,7 +70,7 @@ const Navbar = () => {
                 <MobileNavLink href="/career">Find Your Path</MobileNavLink>
                 {/* <MobileNavLink href="#about">About</MobileNavLink> */}
                 {/* <MobileNavLink href="#contact">Contact</MobileNavLink> */}
-                <button className="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition-colors w-full">
+                <button className="bg-blue-900 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition-colors w-full">
                   Take Assessment
                 </button>
               </div>
