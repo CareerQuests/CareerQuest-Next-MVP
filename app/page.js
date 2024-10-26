@@ -23,9 +23,11 @@ export default function Home() {
           <p className="text-white mb-6 text-lg">
             Find your path with our assessments and recommendations
           </p>
-          <button className="rounded-full bg-white text-gray-800 px-6 py-2 text-lg hover:bg-gray-100 hover:text-gray-900 transition">
-            Take Assessment
-          </button>
+          <a href="/assessment">
+            <button className="rounded-full bg-white text-gray-800 px-6 py-2 text-lg hover:bg-gray-100 hover:text-gray-900 transition">
+              Take Assessment
+            </button>
+          </a>
         </div>
       </section>
 
