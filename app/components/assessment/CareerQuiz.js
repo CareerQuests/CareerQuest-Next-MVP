@@ -56,7 +56,7 @@ export default function CareerQuiz() {
         <div className="w-full max-w-xs mx-auto">
           <div className="relative h-2 bg-gray-200 rounded">
             <div
-              className="absolute h-full bg-blue-500"
+              className="absolute h-full bg-blue-900"
               style={{ width: `${progress}%` }}
             ></div>
           </div>
@@ -74,11 +74,11 @@ export default function CareerQuiz() {
         <button
           onClick={handleNext}
           disabled={!isAnswered}
-          className={`bg-blue-500 text-white py-2 px-4 rounded-lg transition duration-200 
+          className={`bg-blue-900 text-white py-2 px-4 rounded-lg transition duration-200 
             ${
               !isAnswered
                 ? "opacity-50 cursor-not-allowed"
-                : "hover:bg-blue-600"
+                : "hover:bg-blue-800"
             }`}
         >
           {currentQuestion === careerQuestions.length - 1

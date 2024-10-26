@@ -16,7 +16,7 @@ export default function QuestionCard({
               className={`w-full p-4 text-left rounded-lg transition duration-200 
                 ${
                   isSelected
-                    ? "bg-blue-500 text-white"
+                    ? "bg-blue-900 text-white"
                     : "bg-gray-100 hover:bg-gray-200"
                 }
                 ${
