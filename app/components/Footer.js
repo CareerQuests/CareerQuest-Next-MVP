@@ -24,7 +24,7 @@ const Footer = () => {
             </p>
 
             {/* Subscribe Form */}
-            <div className="bg-gradient-to-br from-blue-300 to-purple-300 rounded-3xl p-7">
+            <div className="bg-gradient-to-br from-blue-200 to-purple-200 rounded-3xl p-7">
               <div className="flex flex-col sm:flex-row gap-4 max-w-xl">
                 <input
                   type="email"
