@@ -3,38 +3,38 @@ import { Search, MapPin } from "lucide-react";
 
 const SearchCareer = () => {
   const categories = [
-    { id: 1, name: "UI/UX Design", icon: "🎨", active: true },
-    { id: 2, name: "Sales", icon: "📊" },
-    { id: 3, name: "Development", icon: "💻" },
+    { id: 1, name: "Design", icon: "🎨", active: true },
+    { id: 2, name: "Business", icon: "📊" },
+    { id: 3, name: "Technology", icon: "💻" },
     { id: 4, name: "Analytics", icon: "📈" },
-    { id: 5, name: "Digital Media Specialist", icon: "📱" },
-    { id: 6, name: "Data Operator", icon: "🔍" },
-    { id: 7, name: "Project Management", icon: "📋" },
+    { id: 5, name: "Media Studies", icon: "📱" },
+    { id: 6, name: "Data Science", icon: "🔍" },
+    { id: 7, name: "Management", icon: "📋" },
     { id: 8, name: "Other", icon: "➕" },
   ];
 
-  const jobs = [
+  const courses = [
     {
       id: 1,
-      company: "Gojek",
+      college: "Harvard University",
       logo: "/api/placeholder/48/48",
-      position: "Product Designer",
-      location: "Jakarta, Indonesia",
+      program: "Master's in Design",
+      location: "Cambridge, USA",
       type: "Full-time",
-      salary: "$400/monthly",
-      industry: "Technology",
-      posted: "POSTED YESTERDAY",
+      duration: "2 years",
+      fee: "$50,000/year",
+      posted: "NEW",
     },
     {
       id: 2,
-      company: "Ruang Guru",
+      college: "MIT",
       logo: "/api/placeholder/48/48",
-      position: "UI/UX Researcher",
-      location: "Jakarta, Indonesia",
-      type: "Full-time",
-      salary: "$280/monthly",
-      industry: "Education",
-      posted: "POSTED 2 DAYS AGO",
+      program: "Data Science Certification",
+      location: "Cambridge, USA",
+      type: "Part-time",
+      duration: "6 months",
+      fee: "$5,000",
+      posted: "POPULAR",
     },
   ];
 
@@ -42,11 +42,9 @@ const SearchCareer = () => {
     <div className="min-h-screen p-4 md:p-8">
       <div className="max-w-7xl mx-auto bg-white rounded-3xl p-6 md:p-8 shadow-lg">
         <div className="text-center mb-8">
-          <p className="text-pink-500 mb-2">Realize your Career Dreams</p>
+          <p className="text-pink-500 mb-2">Advance Your Career Path</p>
           <h1 className="text-3xl md:text-4xl font-bold mb-8">
-            Search and Discover
-            <br />
-            your Jobs Here
+            Discover Courses and Colleges
           </h1>
 
           {/* Search Form */}
@@ -54,7 +52,7 @@ const SearchCareer = () => {
             <div className="flex-1 relative">
               <input
                 type="text"
-                placeholder="Job title, keyword or company"
+                placeholder="Program, keyword or college"
                 className="w-full pl-10 pr-4 py-3 border rounded-lg"
               />
               <Search
@@ -65,7 +63,7 @@ const SearchCareer = () => {
             <div className="flex-1 relative">
               <input
                 type="text"
-                placeholder="City, state, zip or remote"
+                placeholder="City, state, or country"
                 className="w-full pl-10 pr-4 py-3 border rounded-lg"
               />
               <MapPin
@@ -95,42 +93,29 @@ const SearchCareer = () => {
             ))}
           </div>
 
-          {/* Job Listings */}
+          {/* Course Listings */}
           <div className="grid md:grid-cols-2 gap-6">
-            {jobs.map((job) => (
+            {courses.map((course) => (
               <div
-                key={job.id}
-                className="border rounded-xl p-6 relative hover:shadow-md transition-shadow"
+                key={course.id}
+                className="border rounded-xl p-6 relative hover:shadow-md transition-shadow bg-gray-50"
               >
-                <button className="absolute right-4 top-4">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    className="text-gray-400"
-                  >
-                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
-                  </svg>
-                </button>
-
                 <div className="flex items-start gap-4 mb-4">
                   <img
-                    src={job.logo}
-                    alt={job.company}
+                    src={course.logo}
+                    alt={course.college}
                     className="w-12 h-12 rounded"
                   />
                   <div>
-                    <h3 className="font-bold text-xl mb-1">{job.position}</h3>
-                    <p className="text-gray-600">{job.company}</p>
+                    <h3 className="font-bold text-xl mb-1">{course.program}</h3>
+                    <p className="text-gray-600">{course.college}</p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 mb-6">
                   <div className="flex items-center gap-2 text-gray-600">
                     <MapPin size={16} />
-                    {job.location}
+                    {course.location}
                   </div>
                   <div className="flex items-center gap-2 text-gray-600">
                     <svg
@@ -143,7 +128,7 @@ const SearchCareer = () => {
                       <circle cx="12" cy="12" r="10" />
                       <path d="M12 6v6l4 2" />
                     </svg>
-                    {job.type}
+                    {course.type}
                   </div>
                   <div className="flex items-center gap-2 text-gray-600">
                     <svg
@@ -155,7 +140,7 @@ const SearchCareer = () => {
                     >
                       <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
                     </svg>
-                    {job.salary}
+                    {course.duration}
                   </div>
                   <div className="flex items-center gap-2 text-gray-600">
                     <svg
@@ -167,16 +152,16 @@ const SearchCareer = () => {
                     >
                       <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
                     </svg>
-                    {job.industry}
+                    {course.fee}
                   </div>
                 </div>
 
                 <button className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition-colors">
-                  Apply
+                  Enroll Now
                 </button>
 
                 <p className="text-pink-500 text-sm mt-4 text-center">
-                  {job.posted}
+                  {course.posted}
                 </p>
               </div>
             ))}

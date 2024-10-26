@@ -40,10 +40,10 @@ const Navbar = () => {
             <div className="hidden md:flex items-center space-x-8">
               <NavLink href="/">Home</NavLink>
               <NavLink href="/career">Find Your Path</NavLink>
-              <NavLink href="#about">About</NavLink>
-              <NavLink href="#contact">Contact</NavLink>
+              {/* <NavLink href="#about">About</NavLink> */}
+              {/* <NavLink href="#contact">Contact</NavLink> */}
               <button className="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition-colors">
-                Get Started
+                Take Assessment
               </button>
             </div>
 
@@ -68,10 +68,10 @@ const Navbar = () => {
               <div className="flex flex-col space-y-4">
                 <MobileNavLink href="/">Home</MobileNavLink>
                 <MobileNavLink href="/career">Find Your Path</MobileNavLink>
-                <MobileNavLink href="#about">About</MobileNavLink>
-                <MobileNavLink href="#contact">Contact</MobileNavLink>
+                {/* <MobileNavLink href="#about">About</MobileNavLink> */}
+                {/* <MobileNavLink href="#contact">Contact</MobileNavLink> */}
                 <button className="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition-colors w-full">
-                  Get Started
+                  Take Assessment
                 </button>
               </div>
             </div>

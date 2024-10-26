@@ -1,5 +1,11 @@
 import React from "react";
-import { Search, MapPin, Bookmark, Compass } from "lucide-react";
+import { MapPin, Bookmark, Compass } from "lucide-react";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaLinkedinIn,
+  FaTwitter,
+} from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -10,22 +16,29 @@ const Footer = () => {
           {/* Main Content */}
           <div className="flex-1">
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">
-              Transforming the Way you Find Jobs
+              Transforming the Way you Find Career
             </h1>
             <p className="text-gray-600 text-lg md:text-xl mb-8">
-              Stop searching, start discovering. Let the ideal job come to you.
+              Stop searching, start discovering. Let the ideal career come to
+              you.
             </p>
 
             {/* Subscribe Form */}
-            <div className="flex flex-col sm:flex-row gap-4 max-w-xl">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-6 py-3 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400"
-              />
-              <button className="px-8 py-3 bg-black text-white rounded-full hover:bg-gray-800 transition-colors whitespace-nowrap">
-                Subscribe
-              </button>
+            <div className="bg-gradient-to-br from-blue-300 to-purple-300 rounded-3xl p-7">
+              <div className="flex flex-col sm:flex-row gap-4 max-w-xl">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="flex-1 px-6 py-3 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400"
+                />
+                <button className="px-8 py-3 bg-black text-white rounded-full hover:bg-gray-800 transition-colors whitespace-nowrap">
+                  Subscribe
+                </button>
+              </div>
+              <p className="text-blue-900 mt-3 text-sm md:text-lg">
+                Get the latest career opportunities, news, and insights
+                delivered to your inbox.
+              </p>
             </div>
           </div>
 
@@ -105,29 +118,34 @@ const Footer = () => {
                   href="#"
                   className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
                 >
+                  <FaFacebookF className="text-blue-600" />
                   <span className="sr-only">Facebook</span>
                 </a>
                 <a
                   href="#"
                   className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
                 >
+                  <FaInstagram className="text-pink-500" />
                   <span className="sr-only">Instagram</span>
                 </a>
                 <a
                   href="#"
                   className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
                 >
+                  <FaLinkedinIn className="text-blue-700" />
                   <span className="sr-only">LinkedIn</span>
                 </a>
                 <a
                   href="#"
                   className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
                 >
+                  <FaTwitter className="text-blue-400" />
                   <span className="sr-only">Twitter</span>
                 </a>
               </div>
             </div>
 
+            {/* Other footer sections */}
             <div>
               <h3 className="font-bold text-xl mb-4">Technology</h3>
               <nav className="space-y-3">
