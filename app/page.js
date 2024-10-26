@@ -6,7 +6,7 @@ import Testimonial from "./components/Testimonial";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-100 to-purple-100 text-gray-800 font-light">
+    <div className="min-h-screen flex flex-col text-gray-800 font-light">
       <div className="fixed w-full z-50">
         <Navbar />
       </div>
@@ -47,8 +47,6 @@ export default function Home() {
 
       {/* Flow Section */}
       <Flow />
-      {/* Career Options Section */}
-      <SearchCareer />
       {/* Testimonial Section */}
       <Testimonial />
       {/* Trending Career Paths Section */}
