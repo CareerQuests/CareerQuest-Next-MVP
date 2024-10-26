@@ -17,7 +17,7 @@ const SearchCareer = () => {
     {
       id: 1,
       college: "Harvard University",
-      logo: "/api/placeholder/48/48",
+      logo: "Harvard.png",
       program: "Master's in Design",
       location: "Cambridge, USA",
       type: "Full-time",
@@ -28,7 +28,7 @@ const SearchCareer = () => {
     {
       id: 2,
       college: "MIT",
-      logo: "/api/placeholder/48/48",
+      logo: "MIT.png",
       program: "Data Science Certification",
       location: "Cambridge, USA",
       type: "Part-time",
