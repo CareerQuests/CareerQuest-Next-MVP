@@ -38,7 +38,7 @@ export default function CareerResult({ traitScores, onReset }) {
             >
               Start Over
             </button>
-            <button className="mt-4 ml-4 bg-blue-900 text-white py-2 px-4 rounded-lg">
+            <button className="mt-4 sm:ml-4 bg-blue-900 text-white py-2 px-4 rounded-lg">
               Find Courses/Programs
             </button>
           </div>
