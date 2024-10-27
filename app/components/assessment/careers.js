@@ -83,4 +83,88 @@ export const careerPaths = [
     traits: ["curious", "communicative", "adaptable"],
     icon: "Newspaper",
   },
+  {
+    title: "Public Relations Specialist",
+    description:
+      "Manage public image, create media strategies, and communicate with stakeholders to enhance brand reputation.",
+    traits: ["communicative", "empathetic", "strategic"],
+    icon: "Mic",
+  },
+  {
+    title: "Human Resources",
+    description:
+      "Oversee recruitment, employee development, and work culture management to support organizational growth.",
+    traits: ["empathetic", "organized", "social"],
+    icon: "Users",
+  },
+  {
+    title: "Environmental Scientist",
+    description:
+      "Study the environment, conduct research on pollution, and work towards sustainability solutions.",
+    traits: ["observant", "analytical", "dedicated"],
+    icon: "Leaf",
+  },
+  {
+    title: "Event Coordinator",
+    description:
+      "Plan, organize, and manage events, ensuring all details align with client objectives and budgets.",
+    traits: ["organized", "social", "dynamic"],
+    icon: "Calendar",
+  },
+  {
+    title: "Social Worker",
+    description:
+      "Support individuals and communities in need, advocate for resources, and provide emotional support.",
+    traits: ["empathetic", "caring", "patient"],
+    icon: "Heart",
+  },
+  {
+    title: "Chef",
+    description:
+      "Create culinary dishes, experiment with flavors, and manage kitchen operations for restaurants or catering services.",
+    traits: ["creative", "innovative", "dedicated"],
+    icon: "Utensils",
+  },
+  {
+    title: "Fashion Designer",
+    description:
+      "Design clothing and accessories, research fashion trends, and bring creative visions to life.",
+    traits: ["creative", "innovative", "artistic"],
+    icon: "Scissors",
+  },
+  {
+    title: "Fitness Trainer",
+    description:
+      "Guide individuals in physical exercises, design fitness plans, and motivate clients to achieve their health goals.",
+    traits: ["motivational", "dedicated", "social"],
+    icon: "Dumbbell",
+  },
+  {
+    title: "Counselor",
+    description:
+      "Provide emotional support, conduct therapy sessions, and guide individuals through personal challenges.",
+    traits: ["empathetic", "patient", "observant"],
+    icon: "Chat",
+  },
+  {
+    title: "Entrepreneur",
+    description:
+      "Innovate, start businesses, manage resources, and create opportunities in competitive markets.",
+    traits: ["risk-taker", "dynamic", "innovative"],
+    icon: "Rocket",
+  },
+  {
+    title: "Interior Designer",
+    description:
+      "Design aesthetically pleasing and functional spaces, select decor, and create mood-enhancing environments.",
+    traits: ["creative", "innovative", "observant"],
+    icon: "Home",
+  },
+  {
+    title: "Veterinarian",
+    description:
+      "Provide healthcare for animals, perform surgeries, and advise pet owners on animal care.",
+    traits: ["empathetic", "dedicated", "analytical"],
+    icon: "Paw",
+  },
 ];

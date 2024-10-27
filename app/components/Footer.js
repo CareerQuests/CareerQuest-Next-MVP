@@ -43,7 +43,7 @@ const Footer = () => {
           </div>
 
           {/* Course Cards */}
-          <div className="w-full lg:w-80 space-y-4">
+          <div className="w-full lg:w-80 space-y-4 hidden sm:block">
             {/* Coursera Course Card */}
             <div className="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow">
               <div className="flex justify-between items-start mb-3">
