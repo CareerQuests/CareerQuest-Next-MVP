@@ -39,7 +39,7 @@ const Navbar = () => {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
               <NavLink href="/">Home</NavLink>
-              <NavLink href="/career">Find Your Path</NavLink>
+              {/* <NavLink href="/career">Find Your Path</NavLink> */}
               {/* <NavLink href="#about">About</NavLink> */}
               {/* <NavLink href="#contact">Contact</NavLink> */}
               <a href="/assessment">
@@ -69,7 +69,7 @@ const Navbar = () => {
             <div className="md:hidden mt-4 pb-4">
               <div className="flex flex-col space-y-4">
                 <MobileNavLink href="/">Home</MobileNavLink>
-                <MobileNavLink href="/career">Find Your Path</MobileNavLink>
+                {/* <MobileNavLink href="/career">Find Your Path</MobileNavLink> */}
                 {/* <MobileNavLink href="#about">About</MobileNavLink> */}
                 {/* <MobileNavLink href="#contact">Contact</MobileNavLink> */}
                 <a href="/assessment">
