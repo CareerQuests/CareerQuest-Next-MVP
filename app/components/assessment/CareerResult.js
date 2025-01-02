@@ -1,15 +1,11 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export default function CareerResult({ traitScores, onReset }) {
   const [careers, setCareers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    fetchCareerMatches();
-  }, [traitScores]);
-
-  const fetchCareerMatches = async () => {
+  const fetchCareerMatches = useCallback(async () => {
     try {
       const response = await fetch("/api/careers/match", {
         method: "POST",
@@ -18,12 +14,16 @@ export default function CareerResult({ traitScores, onReset }) {
       });
       const data = await response.json();
       setCareers(data);
-      setIsLoading(false);
     } catch (error) {
       console.error("Error:", error);
+    } finally {
       setIsLoading(false);
     }
-  };
+  }, [traitScores]);
+
+  useEffect(() => {
+    fetchCareerMatches();
+  }, [fetchCareerMatches]);
 
   if (isLoading) return <div>Loading your career matches...</div>;
 
