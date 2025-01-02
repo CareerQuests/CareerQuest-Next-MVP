@@ -4,6 +4,7 @@ import { FaLinkedinIn, FaTwitter, FaGithub } from "react-icons/fa";
 const Footer = () => {
   return (
     <footer className="relative mt-24">
+      <hr className="border-t border-gray-800 opacity-60" />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-900/50" />
 
       <div className="relative max-w-7xl mx-auto px-8 pt-16">
