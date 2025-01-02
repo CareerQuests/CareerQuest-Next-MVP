@@ -1,31 +1,41 @@
-// CareerResult.js
+"use client";
+import { useState, useEffect } from "react";
+
 export default function CareerResult({ traitScores, onReset }) {
-  const getTopCareers = () => {
-    return careerPaths
-      .map((career) => ({
-        ...career,
-        score: career.traits.reduce(
-          (sum, trait) => sum + (traitScores[trait] || 0),
-          0
-        ),
-      }))
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 4);
+  const [careers, setCareers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetchCareerMatches();
+  }, [traitScores]);
+
+  const fetchCareerMatches = async () => {
+    try {
+      const response = await fetch("/api/careers/match", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ traits: traitScores }),
+      });
+      const data = await response.json();
+      setCareers(data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error:", error);
+      setIsLoading(false);
+    }
   };
+
+  if (isLoading) return <div>Loading your career matches...</div>;
 
   return (
     <div className="p-8 bg-gray-800/30 backdrop-blur-sm rounded-lg border border-gray-700/30">
       <h2 className="text-3xl font-bold mb-6 text-center text-gray-100">
         Your Career Matches
       </h2>
-      <p className="text-gray-400 mb-8 text-center">
-        Based on your responses, here are the career paths that best match your
-        traits:
-      </p>
       <div className="space-y-6">
-        {getTopCareers().map((career) => (
+        {careers.map((career) => (
           <div
-            key={career.title}
+            key={career._id}
             className="p-6 bg-gray-800/40 backdrop-blur-sm rounded-lg border border-gray-700/30"
           >
             <h3 className="text-xl font-semibold text-gray-100 mb-3">

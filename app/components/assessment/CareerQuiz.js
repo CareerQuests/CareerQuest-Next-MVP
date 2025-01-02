@@ -1,18 +1,38 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CareerResult from "./CareerResult";
 import QuestionCard from "./QuestionCard";
-import { careerQuestions } from "./questions";
 
-// CareerQuiz.js
 export default function CareerQuiz() {
+  const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [traitScores, setTraitScores] = useState({});
   const [showResult, setShowResult] = useState(false);
   const [isAnswered, setIsAnswered] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const progress = ((currentQuestion + 1) / careerQuestions.length) * 100;
+  useEffect(() => {
+    fetchQuestions();
+  }, []);
+
+  const fetchQuestions = async () => {
+    try {
+      const response = await fetch("/api/questions");
+      const data = await response.json();
+      setQuestions(data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch questions:", error);
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading) {
+    return <div className="text-center">Loading questions...</div>;
+  }
+
+  const progress = ((currentQuestion + 1) / questions.length) * 100;
 
   const handleAnswer = (traits, optionIndex) => {
     setSelectedOption(optionIndex);
@@ -27,7 +47,7 @@ export default function CareerQuiz() {
   };
 
   const handleNext = () => {
-    if (currentQuestion < careerQuestions.length - 1) {
+    if (currentQuestion < questions.length - 1) {
       setCurrentQuestion((prev) => prev + 1);
       setIsAnswered(false);
       setSelectedOption(null);
@@ -48,11 +68,15 @@ export default function CareerQuiz() {
     return <CareerResult traitScores={traitScores} onReset={resetQuiz} />;
   }
 
+  if (!questions.length) {
+    return <div className="text-center">No questions available.</div>;
+  }
+
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center mb-4">
         <span className="text-gray-400 text-sm font-medium">
-          Question {currentQuestion + 1} of {careerQuestions.length}
+          Question {currentQuestion + 1} of {questions.length}
         </span>
         <div className="w-full max-w-xs mx-4">
           <div className="relative h-2 bg-gray-800/40 rounded-full overflow-hidden">
@@ -65,7 +89,7 @@ export default function CareerQuiz() {
       </div>
 
       <QuestionCard
-        question={careerQuestions[currentQuestion]}
+        question={questions[currentQuestion]}
         onAnswer={handleAnswer}
         isAnswered={isAnswered}
         selectedOption={selectedOption}
@@ -82,9 +106,7 @@ export default function CareerQuiz() {
                 : "bg-blue-500/20 text-blue-400 hover:bg-blue-500/30"
             }`}
         >
-          {currentQuestion === careerQuestions.length - 1
-            ? "See Results"
-            : "Next"}
+          {currentQuestion === questions.length - 1 ? "See Results" : "Next"}
         </button>
       </div>
     </div>
