@@ -40,10 +40,10 @@ const SearchCareer = () => {
 
   return (
     <div className="min-h-screen p-4 md:p-8">
-      <div className="max-w-7xl mx-auto bg-white rounded-3xl p-6 md:p-8 shadow-lg">
+      <div className="max-w-7xl mx-auto bg-gray-800/30 backdrop-blur-sm rounded-3xl p-6 md:p-8 border border-gray-700/30">
         <div className="text-center mb-8">
-          <p className="text-pink-500 mb-2">Advance Your Career Path</p>
-          <h1 className="text-3xl md:text-4xl font-bold mb-8">
+          <p className="text-emerald-400 mb-2">Advance Your Career Path</p>
+          <h1 className="text-3xl md:text-4xl font-bold mb-8 text-gray-100">
             Discover Courses and Colleges
           </h1>
 
@@ -53,7 +53,7 @@ const SearchCareer = () => {
               <input
                 type="text"
                 placeholder="Program, keyword or college"
-                className="w-full pl-10 pr-4 py-3 border rounded-lg"
+                className="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-800/40 border border-gray-700/50 text-gray-100 placeholder-gray-500"
               />
               <Search
                 className="absolute left-3 top-3.5 text-gray-400"
@@ -64,14 +64,14 @@ const SearchCareer = () => {
               <input
                 type="text"
                 placeholder="City, state, or country"
-                className="w-full pl-10 pr-4 py-3 border rounded-lg"
+                className="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-800/40 border border-gray-700/50 text-gray-100 placeholder-gray-500"
               />
               <MapPin
                 className="absolute left-3 top-3.5 text-gray-400"
                 size={20}
               />
             </div>
-            <button className="bg-black text-white px-8 py-3 rounded-lg">
+            <button className="bg-blue-500/20 text-blue-400 px-8 py-3 rounded-lg hover:bg-blue-500/30 transition-colors">
               Search
             </button>
           </div>
@@ -83,8 +83,8 @@ const SearchCareer = () => {
                 key={category.id}
                 className={`px-4 py-2 rounded-full flex items-center gap-2 ${
                   category.active
-                    ? "bg-pink-500 text-white"
-                    : "bg-gray-100 text-gray-600"
+                    ? "bg-emerald-500/20 text-emerald-400"
+                    : "bg-gray-800/40 text-gray-400 hover:bg-gray-800/60"
                 }`}
               >
                 <span>{category.icon}</span>
@@ -98,26 +98,28 @@ const SearchCareer = () => {
             {courses.map((course) => (
               <div
                 key={course.id}
-                className="border rounded-xl p-6 relative hover:shadow-md transition-shadow bg-gray-50"
+                className="bg-gray-800/40 backdrop-blur-sm border border-gray-700/30 rounded-xl p-6 relative hover:bg-gray-800/60 transition-all"
               >
                 <div className="flex items-start gap-4 mb-4">
                   <img
                     src={course.logo}
                     alt={course.college}
-                    className="w-12 h-12 rounded"
+                    className="w-12 h-12 rounded bg-gray-700"
                   />
                   <div>
-                    <h3 className="font-bold text-xl mb-1">{course.program}</h3>
-                    <p className="text-gray-600">{course.college}</p>
+                    <h3 className="font-bold text-xl mb-1 text-gray-100">
+                      {course.program}
+                    </h3>
+                    <p className="text-gray-400">{course.college}</p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 mb-6">
-                  <div className="flex items-center gap-2 text-gray-600">
+                  <div className="flex items-center gap-2 text-gray-400">
                     <MapPin size={16} />
                     {course.location}
                   </div>
-                  <div className="flex items-center gap-2 text-gray-600">
+                  <div className="flex items-center gap-2 text-gray-400">
                     <svg
                       width="16"
                       height="16"
@@ -130,7 +132,7 @@ const SearchCareer = () => {
                     </svg>
                     {course.type}
                   </div>
-                  <div className="flex items-center gap-2 text-gray-600">
+                  <div className="flex items-center gap-2 text-gray-400">
                     <svg
                       width="16"
                       height="16"
@@ -142,7 +144,7 @@ const SearchCareer = () => {
                     </svg>
                     {course.duration}
                   </div>
-                  <div className="flex items-center gap-2 text-gray-600">
+                  <div className="flex items-center gap-2 text-gray-400">
                     <svg
                       width="16"
                       height="16"
@@ -156,11 +158,11 @@ const SearchCareer = () => {
                   </div>
                 </div>
 
-                <button className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition-colors">
+                <button className="w-full bg-blue-500/20 text-blue-400 py-3 rounded-lg hover:bg-blue-500/30 transition-colors">
                   Enroll Now
                 </button>
 
-                <p className="text-pink-500 text-sm mt-4 text-center">
+                <p className="text-emerald-400 text-sm mt-4 text-center">
                   {course.posted}
                 </p>
               </div>

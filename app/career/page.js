@@ -1,5 +1,6 @@
 "use client";
 
+import { FloatingElements } from "../components/assessment/FloatingElements";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import SearchCareer from "../components/SearchCareer";
@@ -8,7 +9,8 @@ import SearchCareer from "../components/SearchCareer";
 
 const Career = () => {
   return (
-    <>
+    <div className="min-h-screen bg-transparent text-gray-100">
+      <FloatingElements />
       <div className="fixed w-full z-50">
         <Navbar />
       </div>
@@ -16,7 +18,7 @@ const Career = () => {
         <SearchCareer />
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

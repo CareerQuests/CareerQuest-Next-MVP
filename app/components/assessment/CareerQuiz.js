@@ -1,9 +1,10 @@
 "use client";
 import { useState } from "react";
-import QuestionCard from "./QuestionCard";
 import CareerResult from "./CareerResult";
+import QuestionCard from "./QuestionCard";
 import { careerQuestions } from "./questions";
 
+// CareerQuiz.js
 export default function CareerQuiz() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [traitScores, setTraitScores] = useState({});
@@ -50,15 +51,15 @@ export default function CareerQuiz() {
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center mb-4">
-        <span className="text-sm font-medium">
+        <span className="text-gray-400 text-sm font-medium">
           Question {currentQuestion + 1} of {careerQuestions.length}
         </span>
-        <div className="w-full max-w-xs mx-auto">
-          <div className="relative h-2 bg-gray-200 rounded">
+        <div className="w-full max-w-xs mx-4">
+          <div className="relative h-2 bg-gray-800/40 rounded-full overflow-hidden">
             <div
-              className="absolute h-full bg-blue-900"
+              className="absolute h-full bg-blue-500/50"
               style={{ width: `${progress}%` }}
-            ></div>
+            />
           </div>
         </div>
       </div>
@@ -74,11 +75,11 @@ export default function CareerQuiz() {
         <button
           onClick={handleNext}
           disabled={!isAnswered}
-          className={`bg-blue-900 text-white py-2 px-4 rounded-lg transition duration-200 
+          className={`px-4 py-2 rounded-lg transition-colors duration-200
             ${
               !isAnswered
-                ? "opacity-50 cursor-not-allowed"
-                : "hover:bg-blue-800"
+                ? "bg-blue-500/10 text-blue-400/50 cursor-not-allowed"
+                : "bg-blue-500/20 text-blue-400 hover:bg-blue-500/30"
             }`}
         >
           {currentQuestion === careerQuestions.length - 1

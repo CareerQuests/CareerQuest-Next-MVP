@@ -1,208 +1,91 @@
 import React from "react";
-import { MapPin, Bookmark, Compass } from "lucide-react";
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaLinkedinIn,
-  FaTwitter,
-} from "react-icons/fa";
+import { FaLinkedinIn, FaTwitter, FaGithub } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-purple-100">
-      {/* Hero Section */}
-      <div className="container mx-auto px-4 py-8 sm:py-12 md:py-24">
-        <div className="relative flex flex-col lg:flex-row gap-8 lg:gap-12">
-          {/* Main Content */}
-          <div className="flex-1">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">
-              Transforming the Way you Find Career
-            </h1>
-            <p className="text-gray-600 text-lg md:text-xl mb-8">
-              Stop searching, start discovering. Let the ideal career come to
-              you.
-            </p>
+    <footer className="relative mt-24">
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-900/50" />
 
-            {/* Subscribe Form */}
-            <div className="bg-gradient-to-br from-blue-200 to-purple-200 rounded-3xl p-7">
-              <div className="flex flex-col sm:flex-row gap-4 max-w-xl">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 px-6 py-3 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400"
-                />
-                <button className="px-8 py-3 bg-blue-900 text-white rounded-full hover:bg-gray-800 transition-colors whitespace-nowrap">
-                  Subscribe
-                </button>
-              </div>
-              <p className="text-blue-900 mt-3 text-sm md:text-lg">
-                Get the latest career opportunities, news, and insights
-                delivered to your inbox.
+      <div className="relative max-w-7xl mx-auto px-8 pt-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 pb-16">
+          {/* Left section */}
+          <div>
+            <div className="flex items-center gap-3 mb-8">
+              <div className="h-10 w-10 bg-gradient-to-br from-emerald-400 to-blue-400 rounded-xl" />
+              <span className="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                CareerQuest
+              </span>
+            </div>
+
+            <div className="max-w-md">
+              <h2 className="text-4xl font-bold text-white mb-6">
+                Ready to Start Your Journey?
+              </h2>
+              <p className="text-gray-400 mb-8">
+                Join thousands of professionals discovering their ideal career
+                path with AI-powered guidance.
               </p>
+              <button className="px-8 py-3 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-xl hover:from-emerald-600 hover:to-blue-600 transition-all">
+                Get Started Now
+              </button>
             </div>
           </div>
 
-          {/* Course Cards */}
-          <div className="w-full lg:w-80 space-y-4 hidden sm:block">
-            {/* Coursera Course Card */}
-            <div className="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-              <div className="flex justify-between items-start mb-3">
-                <div className="flex gap-3">
-                  <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center text-white">
-                    C
-                  </div>
-                  <div>
-                    <h3 className="font-semibold">Machine Learning</h3>
-                    <p className="text-sm text-gray-500">Coursera</p>
-                  </div>
-                </div>
-                <Bookmark className="w-5 h-5 text-gray-400" />
+          {/* Right section */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-8">
+            {[
+              {
+                title: "Platform",
+                links: ["Assessment", "Career Paths", "Resources", "Pricing"],
+              },
+              {
+                title: "Company",
+                links: ["About", "Blog", "Careers", "Contact"],
+              },
+              {
+                title: "Legal",
+                links: ["Privacy", "Terms", "Security"],
+              },
+            ].map((section, index) => (
+              <div key={index}>
+                <h3 className="font-semibold text-white mb-4">
+                  {section.title}
+                </h3>
+                <nav className="space-y-3">
+                  {section.links.map((link, linkIndex) => (
+                    <a
+                      key={linkIndex}
+                      href="#"
+                      className="block text-gray-400 hover:text-emerald-400 transition-colors text-sm"
+                    >
+                      {link}
+                    </a>
+                  ))}
+                </nav>
               </div>
-              <div className="flex justify-between items-center text-sm">
-                <div className="flex items-center gap-1">
-                  <MapPin className="w-4 h-4 text-gray-400" />
-                  <span className="text-gray-500">Online</span>
-                </div>
-                <span className="font-semibold">
-                  Free
-                  <span className="text-gray-500">
-                    /certificate fee applies
-                  </span>
-                </span>
-              </div>
-            </div>
-
-            {/* Another Coursera Course Card */}
-            <div className="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-              <div className="flex justify-between items-start mb-3">
-                <div className="flex gap-3">
-                  <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center text-white">
-                    C
-                  </div>
-                  <div>
-                    <h3 className="font-semibold">
-                      Data Science Specialization
-                    </h3>
-                    <p className="text-sm text-gray-500">Coursera</p>
-                  </div>
-                </div>
-                <Bookmark className="w-5 h-5 text-gray-400" />
-              </div>
-              <div className="flex justify-between items-center text-sm">
-                <div className="flex items-center gap-1">
-                  <MapPin className="w-4 h-4 text-gray-400" />
-                  <span className="text-gray-500">Online</span>
-                </div>
-                <span className="font-semibold">
-                  $49<span className="text-gray-500">/month</span>
-                </span>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
-        {/* Footer Navigation */}
-        <footer className="mt-16 sm:mt-24">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-            <div className="col-span-2 md:col-span-1">
-              <div className="flex items-center gap-2 mb-4">
-                <Compass className="h-6 w-6 text-pink-600" />
-                <span className="font-bold text-xl">CareerQuest</span>
-              </div>
-              <p className="text-gray-600 mb-6">
-                Career Quest connects you with career opportunities tailored to
-                your skills, relevance, and personal preferences.
-              </p>
-              <div className="flex gap-4">
-                <a
-                  href="#"
-                  className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
-                >
-                  <FaFacebookF className="text-blue-600" />
-                  <span className="sr-only">Facebook</span>
-                </a>
-                <a
-                  href="#"
-                  className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
-                >
-                  <FaInstagram className="text-pink-500" />
-                  <span className="sr-only">Instagram</span>
-                </a>
-                <a
-                  href="#"
-                  className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
-                >
-                  <FaLinkedinIn className="text-blue-700" />
-                  <span className="sr-only">LinkedIn</span>
-                </a>
-                <a
-                  href="#"
-                  className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
-                >
-                  <FaTwitter className="text-blue-400" />
-                  <span className="sr-only">Twitter</span>
-                </a>
-              </div>
-            </div>
-
-            {/* Other footer sections */}
-            <div>
-              <h3 className="font-bold text-xl mb-4">Technology</h3>
-              <nav className="space-y-3">
-                <a href="#" className="block text-gray-600 hover:text-gray-900">
-                  Search for Jobs
-                </a>
-                <a href="#" className="block text-gray-600 hover:text-gray-900">
-                  Browse Jobs
-                </a>
-                <a href="#" className="block text-gray-600 hover:text-gray-900">
-                  Browse Companies
-                </a>
-                <a href="#" className="block text-gray-600 hover:text-gray-900">
-                  Career Advice
-                </a>
-              </nav>
-            </div>
-
-            <div>
-              <h3 className="font-bold text-xl mb-4">Employers</h3>
-              <nav className="space-y-3">
-                <a href="#" className="block text-gray-600 hover:text-gray-900">
-                  Post Jobs
-                </a>
-                <a href="#" className="block text-gray-600 hover:text-gray-900">
-                  Source Talent
-                </a>
-                <a href="#" className="block text-gray-600 hover:text-gray-900">
-                  Employer & Advertising
-                </a>
-                <a href="#" className="block text-gray-600 hover:text-gray-900">
-                  Hiring Events
-                </a>
-              </nav>
-            </div>
-
-            <div>
-              <h3 className="font-bold text-xl mb-4">Company</h3>
-              <nav className="space-y-3">
-                <a href="#" className="block text-gray-600 hover:text-gray-900">
-                  About Us
-                </a>
-                <a href="#" className="block text-gray-600 hover:text-gray-900">
-                  Media
-                </a>
-                <a href="#" className="block text-gray-600 hover:text-gray-900">
-                  Work at Career Quest
-                </a>
-                <a href="#" className="block text-gray-600 hover:text-gray-900">
-                  Contact Us
-                </a>
-              </nav>
-            </div>
+        {/* Bottom section */}
+        <div className="flex flex-col sm:flex-row justify-between items-center py-8 border-t border-gray-800">
+          <p className="text-gray-500 text-sm mb-4 sm:mb-0">
+            © 2025 CareerQuest. All rights reserved.
+          </p>
+          <div className="flex gap-4">
+            {[FaLinkedinIn, FaTwitter, FaGithub].map((Icon, index) => (
+              <a
+                key={index}
+                href="#"
+                className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-800 transition-colors group"
+              >
+                <Icon className="text-gray-400 group-hover:text-emerald-400 transition-colors" />
+              </a>
+            ))}
           </div>
-        </footer>
+        </div>
       </div>
-    </div>
+    </footer>
   );
 };
 

@@ -4,11 +4,7 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background: linear-gradient(
-    to bottom right,
-    #ebf8ff,
-    #e9d8fd
-  );
+  background: linear-gradient(to bottom right, #ebf8ff, #e9d8fd);
 }
 
 @layer components {
@@ -27,5 +23,51 @@ body {
   .glass-card {
     @apply bg-white bg-opacity-90 backdrop-blur-lg rounded-xl shadow-lg p-6 
     border border-gray-200 hover:shadow-xl transition-all duration-300;
+  }
+}
+
+@keyframes blob {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(20px, 0) scale(1.1);
+  }
+  50% {
+    transform: translate(20px, 20px) scale(1);
+  }
+  75% {
+    transform: translate(0, 20px) scale(0.9);
+  }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+.animate-tilt {
+  animation: tilt 10s infinite linear;
+}
+
+@keyframes tilt {
+  0%,
+  50%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(0.5deg);
+  }
+  75% {
+    transform: rotate(-0.5deg);
   }
 }

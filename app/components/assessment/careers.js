@@ -1,3 +1,4 @@
+// assessment/careers.js
 export const careerPaths = [
   {
     title: "Software Development",

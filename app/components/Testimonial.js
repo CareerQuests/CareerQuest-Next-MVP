@@ -1,30 +1,24 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 
 const testimonials = [
   {
     id: 1,
     name: "Maxwell Salvador",
-    role: "Digital Creative & Production Lead at Uniqlo",
-    rating: 3,
-    company: "uniqlo",
-    text: "HireMe's exceptional platform made my job search a breeze. Thanks to HireMe, I secured an incredible position that aligns perfectly with my career goals. I highly recommend HireMe to anyone serious about finding their ideal job!",
+    role: "Digital Creative Lead",
+    text: "CareerQuest's assessment tools provided invaluable insights into my career path. The AI-powered recommendations were remarkably accurate.",
   },
   {
     id: 2,
     name: "Xaviera Putri",
-    role: "Product Designer at Shopee",
-    rating: 5,
-    company: "shopee",
-    text: "The platform's comprehensive database and advanced search features allowed me to easily discover job opportunities that I hadn't found on other sites. I found an amazing position that perfectly fits my career goals. Highly recommend HireMe to anyone serious about finding the right job!",
+    role: "Product Designer",
+    text: "The platform's comprehensive analysis helped me discover career opportunities I hadn't considered. The guidance was transformative.",
   },
   {
     id: 3,
-    name: "Axell Andersont",
-    role: "Senior Content Designer at Netflix",
-    rating: 5,
-    company: "netflix",
-    text: "HireMe's exceptional platform made my job search a breeze. Thanks to HireMe, I secured an incredible position that aligns perfectly with my career goals. I highly recommend HireMe to anyone serious about finding their ideal job!",
+    name: "Axell Anderson",
+    role: "Senior Designer",
+    text: "CareerQuest made my career transition seamless. The personalized roadmap and skill assessments were incredibly helpful.",
   },
 ];
 
@@ -32,126 +26,73 @@ const Testimonial = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [startPosition, setStartPosition] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [cardHeight, setCardHeight] = useState(0);
-  const activeCardRef = useRef(null);
 
-  useEffect(() => {
-    if (activeCardRef.current) {
-      setCardHeight(activeCardRef.current.offsetHeight);
-    }
-  }, [currentSlide]);
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % testimonials.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide(
-      (prev) => (prev - 1 + testimonials.length) % testimonials.length
-    );
-  };
-
-  const handleTouchStart = (e) => {
-    setStartPosition(e.touches[0].clientX);
-  };
-
-  const handleTouchMove = (e) => {
+  const handleDrag = (currentPosition) => {
     if (startPosition === null) return;
-
-    const currentPosition = e.touches[0].clientX;
     const difference = startPosition - currentPosition;
-
-    if (difference > 50) {
-      nextSlide();
-      setStartPosition(null);
-    } else if (difference < -50) {
-      prevSlide();
-      setStartPosition(null);
-    }
-  };
-
-  const handleMouseDown = (e) => {
-    setStartPosition(e.clientX);
-    setIsDragging(true);
-  };
-
-  const handleMouseMove = (e) => {
-    if (!isDragging || startPosition === null) return;
-
-    const difference = startPosition - e.clientX;
-
-    if (difference > 50) {
-      nextSlide();
-      setStartPosition(null);
-      setIsDragging(false);
-    } else if (difference < -50) {
-      prevSlide();
+    if (Math.abs(difference) > 50) {
+      setCurrentSlide((prev) =>
+        difference > 0
+          ? (prev + 1) % testimonials.length
+          : (prev - 1 + testimonials.length) % testimonials.length
+      );
       setStartPosition(null);
       setIsDragging(false);
     }
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
   };
 
   const getCardStyle = (index) => {
     const diff =
       (index - currentSlide + testimonials.length) % testimonials.length;
-
-    if (diff === 0) {
-      return "translate-x-0 opacity-100 scale-100 z-30";
-    } else if (diff === 1) {
-      return "translate-x-[80%] opacity-75 scale-90 z-20";
-    } else if (diff === testimonials.length - 1) {
-      return "-translate-x-[80%] opacity-75 scale-90 z-20";
-    } else {
-      return "opacity-0 scale-90 translate-x-full z-0";
-    }
+    const styles = {
+      0: "translate-x-0 opacity-100 scale-100 z-30",
+      1: "translate-x-[80%] opacity-40 scale-90 z-20",
+      [testimonials.length - 1]: "-translate-x-[80%] opacity-40 scale-90 z-20",
+    };
+    return styles[diff] || "opacity-0 scale-90 translate-x-full z-0";
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 py-12">
+    <div className="w-full max-w-6xl mx-auto px-4 py-16">
       <div className="text-center mb-12">
-        <p className="text-pink-500 text-sm mb-2">Success Experience</p>
-        <h2 className="text-4xl md:text-5xl font-bold">
-          Insights from Connect Users
+        <h2 className="text-4xl font-bold text-white mb-4">
+          User <span className="text-emerald-400">Success</span> Stories
         </h2>
+        <p className="text-gray-400">
+          Discover how CareerQuest transformed careers
+        </p>
       </div>
 
-      <div className="relative">
-        <div
-          className="relative h-[500px] md:h-[400px] w-full overflow-hidden flex justify-center sm:mb-4"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={() => setIsDragging(false)}
-        >
+      <div
+        className="relative"
+        onTouchStart={(e) => setStartPosition(e.touches[0].clientX)}
+        onTouchMove={(e) => handleDrag(e.touches[0].clientX)}
+        onMouseDown={(e) => {
+          setStartPosition(e.clientX);
+          setIsDragging(true);
+        }}
+        onMouseMove={(e) => isDragging && handleDrag(e.clientX)}
+        onMouseUp={() => setIsDragging(false)}
+        onMouseLeave={() => setIsDragging(false)}
+      >
+        <div className="relative h-[300px] w-full overflow-hidden flex justify-center">
           {testimonials.map((testimonial, index) => (
             <div
               key={testimonial.id}
-              ref={currentSlide === index ? activeCardRef : null}
-              className={`absolute w-full sm:w-[50%] px-4 transition-all duration-500 ease-out ${getCardStyle(
+              className={`absolute w-full sm:w-[600px] px-4 transition-all duration-500 ease-out ${getCardStyle(
                 index
               )}`}
               onClick={() => setCurrentSlide(index)}
             >
-              <div className="bg-white rounded-3xl p-8 shadow-lg h-full">
-                {/* Testimonial Content */}
-                <p className="text-gray-700 mb-6">{testimonial.text}</p>
-                <div className="flex items-center mt-auto">
-                  <div className="w-12 h-12 rounded-full overflow-hidden">
-                    <img
-                      src="compass-regular.svg"
-                      alt={`${testimonial.name}'s profile`}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
+              <div className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/30 h-full">
+                <p className="text-gray-300 text-lg mb-6">{testimonial.text}</p>
+                <div className="flex items-center">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-400 to-blue-400" />
                   <div className="ml-4">
-                    <h3 className="font-bold text-lg">{testimonial.name}</h3>
-                    <p className="text-gray-600 text-sm">{testimonial.role}</p>
+                    <h3 className="font-semibold text-white">
+                      {testimonial.name}
+                    </h3>
+                    <p className="text-gray-400">{testimonial.role}</p>
                   </div>
                 </div>
               </div>
@@ -159,12 +100,12 @@ const Testimonial = () => {
           ))}
         </div>
 
-        <div className="flex justify-center gap-2 mt-4">
+        <div className="flex justify-center gap-2 mt-8">
           {testimonials.map((_, index) => (
             <button
               key={index}
               className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                currentSlide === index ? "bg-gray-800 w-4" : "bg-gray-300"
+                currentSlide === index ? "bg-emerald-400 w-6" : "bg-gray-700"
               }`}
               onClick={() => setCurrentSlide(index)}
             />
