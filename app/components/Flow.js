@@ -8,11 +8,11 @@ const steps = [
     title: "Take Assessment",
     description: "Complete our quick AI assessment to discover your potential",
   },
-  {
-    icon: UserCircle2,
-    title: "Build Profile",
-    description: "Create your profile to highlight your unique strengths",
-  },
+  // {
+  //   icon: UserCircle2,
+  //   title: "Build Profile",
+  //   description: "Create your profile to highlight your unique strengths",
+  // },
   {
     icon: Cpu,
     title: "AI Analysis",
@@ -34,7 +34,7 @@ export default function Flow() {
             How It <span className="text-emerald-400">Works</span>
           </h2>
           <p className="text-gray-400">
-            Find your ideal career in 4 simple steps
+            Find your ideal career in 3 simple steps
           </p>
         </div>
 
