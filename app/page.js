@@ -3,6 +3,7 @@ import Testimonial from "./components/Testimonial";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Flow from "./components/Flow";
+import Link from "next/link";
 
 const FloatingElements = () => (
   <div className="fixed inset-0 -z-10">
@@ -45,7 +46,9 @@ export default function Home() {
                 <div className="text-gray-400">Career Matching</div>
               </div>
               <button className="mt-6 text-blue-400 hover:text-blue-300 flex items-center">
-                Explore Assessment <span className="ml-2">→</span>
+                <Link href="/assessment">
+                  Explore Assessment <span className="ml-2">→</span>
+                </Link>
               </button>
             </div>
 
