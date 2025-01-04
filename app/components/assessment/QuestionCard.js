@@ -20,8 +20,8 @@ export default function QuestionCard({
   }
 
   return (
-    <div className="p-8 bg-gray-800/30 backdrop-blur-sm rounded-lg border border-gray-700/30">
-      <h2 className="text-xl font-semibold mb-6 text-gray-100">
+    <div className="p-6 bg-gray-800/30 backdrop-blur-sm rounded-lg border border-gray-700/30">
+      <h2 className="text-xl font-semibold mb-4 text-gray-100">
         {question.question}
       </h2>
       <div className="space-y-3">
@@ -75,7 +75,7 @@ export default function QuestionCard({
         })}
       </div>
       {question.reasoning && (
-        <div className="mt-6 pt-4 border-t border-gray-700/30">
+        <div className="mt-4 pt-3 border-t border-gray-700/30">
           <p className="text-sm text-gray-400 italic">{question.reasoning}</p>
         </div>
       )}
