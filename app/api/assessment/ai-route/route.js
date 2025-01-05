@@ -1,11 +1,10 @@
-// app/api/assessment/ai-route/route.js
 import Groq from "groq-sdk";
 import { NextResponse } from "next/server";
 
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-});
+// Initialize Groq
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
+// Configuration constants
 const CONFIG = {
   MODEL: "llama3-8b-8192",
   TEMPERATURES: {
@@ -13,282 +12,176 @@ const CONFIG = {
     CAREERS: 0.4,
   },
   MAX_TOKENS: {
-    QUESTIONS: 1000,
-    CAREERS: 2000,
+    QUESTIONS: 1200,
+    CAREERS: 2500,
   },
+  // Career fields supported by the system (for future validation or UI use)
+  CAREER_FIELDS: [
+    "Medical & Healthcare",
+    "Technology & IT",
+    "Business & Finance",
+    "Education & Teaching",
+    "Engineering & Architecture",
+    "Science & Research",
+    "Creative & Design",
+    "Legal & Law",
+    "Public Service & Government",
+    "Social Services & Community",
+    "Skilled Trades",
+    "Hospitality & Tourism",
+    "Sports & Athletics",
+    "Agriculture & Farming",
+    "Freelancing",
+    "Entrepreneurship",
+  ],
 };
 
-// Backup questions
+// Backup questions for fallback
 const backupQuestions = [
   {
-    question: "How do you prefer to solve workplace challenges?",
+    question: "What aspects of work bring you the most satisfaction?",
     options: [
       {
-        text: "Through systematic analysis and research",
-        traits: ["analytical", "methodical"],
+        text: "Solving complex technical challenges",
+        traits: ["technical", "analytical"],
       },
       {
-        text: "By collaborating and brainstorming with others",
-        traits: ["collaborative", "team_oriented"],
+        text: "Helping and mentoring others",
+        traits: ["helping", "mentoring"],
       },
+      { text: "Creating and innovating", traits: ["creative", "innovative"] },
       {
-        text: "Using creative and innovative approaches",
-        traits: ["creative", "innovative"],
-      },
-      {
-        text: "Following established procedures and best practices",
-        traits: ["structured", "procedural"],
+        text: "Leading and organizing teams",
+        traits: ["leadership", "organizational"],
       },
     ],
-    reasoning: "Understanding problem-solving approach",
+    reasoning: "Understanding core work motivations",
   },
   {
-    question: "What type of work environment do you thrive in?",
+    question: "How do you prefer to make decisions?",
     options: [
       {
-        text: "Fast-paced with diverse challenges",
-        traits: ["adaptable", "dynamic"],
+        text: "Through detailed analysis of data",
+        traits: ["analytical", "data_driven"],
       },
       {
-        text: "Structured with clear objectives",
-        traits: ["organized", "focused"],
+        text: "By considering impact on people",
+        traits: ["empathetic", "people_focused"],
       },
       {
-        text: "Creative and experimental",
-        traits: ["innovative", "experimental"],
+        text: "Using intuition and experience",
+        traits: ["intuitive", "experienced"],
       },
       {
-        text: "Supportive and collaborative",
-        traits: ["supportive", "team_oriented"],
+        text: "Following established procedures",
+        traits: ["methodical", "structured"],
       },
     ],
-    reasoning: "Understanding preferred work environment",
-  },
-  {
-    question: "How do you prefer to learn new skills?",
-    options: [
-      {
-        text: "Through hands-on practice and experimentation",
-        traits: ["practical", "experiential"],
-      },
-      {
-        text: "By studying theory and concepts first",
-        traits: ["analytical", "theoretical"],
-      },
-      {
-        text: "Through group learning and discussions",
-        traits: ["collaborative", "interactive"],
-      },
-      {
-        text: "Via self-directed research and practice",
-        traits: ["independent", "self_directed"],
-      },
-    ],
-    reasoning: "Understanding learning style preferences",
+    reasoning: "Understanding decision-making style",
   },
 ];
 
-// Helper functions
+// Utility: Safe JSON parsing with detailed logging
 const safeJSONParse = (text) => {
-  if (!text || typeof text !== "string") {
-    throw new Error("Invalid input for JSON parsing");
-  }
+  if (typeof text !== "string") return null;
 
   try {
-    const cleanText = text.replace(/```json\n?|```\n?/g, "").trim();
+    const cleaned = text
+      .replace(/```json\n?|```\n?/g, "")
+      .replace(/[\u201C\u201D]/g, '"')
+      .trim();
 
-    if (!cleanText) {
-      throw new Error("Empty JSON string after cleaning");
-    }
+    const match = cleaned.match(/(\{[\s\S]*\}|\[[\s\S]*\])/);
+    if (!match) throw new Error("No valid JSON structure found");
 
-    try {
-      return JSON.parse(cleanText);
-    } catch (initialError) {
-      const match = cleanText.match(/[\[\{][\s\S]*[\}\]]/);
-      if (!match) {
-        throw new Error("No valid JSON structure found");
-      }
-      const result = JSON.parse(match[0]);
-
-      if (!result) {
-        throw new Error("Parsed result is empty");
-      }
-
-      return result;
-    }
+    return JSON.parse(match[1]);
   } catch (error) {
-    console.error("JSON parsing error:", error);
-    throw new Error(`Failed to parse JSON: ${error.message}`);
+    console.error("JSON Parsing Error:", error.message);
+    return null;
   }
 };
 
-const validateQuestionResponse = (response, previousQuestions) => {
-  if (!response?.question || typeof response.question !== "string") {
-    throw new Error("Invalid question format");
+// Utility: Validate question format
+const validateQuestion = (question) => {
+  if (
+    !question?.question ||
+    typeof question.question !== "string" ||
+    !Array.isArray(question.options) ||
+    question.options.length !== 4 ||
+    question.options.some(
+      (opt) =>
+        !opt?.text ||
+        !Array.isArray(opt.traits) ||
+        opt.traits.length !== 2 ||
+        opt.traits.some((t) => typeof t !== "string")
+    )
+  ) {
+    return false;
   }
-
-  if (!Array.isArray(response?.options) || response.options.length !== 4) {
-    throw new Error("Invalid options array");
-  }
-
-  const validOptions = response.options.every(
-    (opt) =>
-      typeof opt.text === "string" &&
-      Array.isArray(opt.traits) &&
-      opt.traits.length === 2 &&
-      opt.traits.every((trait) => typeof trait === "string")
-  );
-
-  if (!validOptions) {
-    throw new Error("Invalid option format");
-  }
-
-  const isDuplicate = previousQuestions.some(
-    (prevQ) => prevQ.question.toLowerCase() === response.question.toLowerCase()
-  );
-
-  if (isDuplicate) {
-    throw new Error("Duplicate question detected");
-  }
-
   return true;
 };
 
+// Utility: Fetch a unique backup question
+const getUniqueBackupQuestion = (previousQuestions) => {
+  const previousSet = new Set(
+    previousQuestions.map((q) => q.question.toLowerCase())
+  );
+  return (
+    backupQuestions.find((q) => !previousSet.has(q.question.toLowerCase())) ||
+    backupQuestions[0]
+  );
+};
+
+// Function: Generate a new question
+const generateQuestion = async (currentAnswers, previousQuestions) => {
+  const prompt = `Generate a career assessment question in this EXACT format:
+{
+  "question": "A focused career-related question",
+  "options": [
+    { "text": "First option", "traits": ["trait1", "trait2"] },
+    { "text": "Second option", "traits": ["trait3", "trait4"] },
+    { "text": "Third option", "traits": ["trait5", "trait6"] },
+    { "text": "Fourth option", "traits": ["trait7", "trait8"] }
+  ],
+  "reasoning": "Explain the relevance of this question."
+}`;
+
+  const exclusions = previousQuestions.map((q) => q.question).join(" | ");
+
+  try {
+    const completion = await groq.chat.completions.create({
+      messages: [
+        { role: "system", content: prompt },
+        { role: "user", content: `Avoid overlap with: ${exclusions}` },
+      ],
+      model: CONFIG.MODEL,
+      temperature: CONFIG.TEMPERATURES.QUESTIONS,
+      max_tokens: CONFIG.MAX_TOKENS.QUESTIONS,
+    });
+
+    const response = safeJSONParse(completion.choices[0]?.message?.content);
+    if (response && validateQuestion(response)) return response;
+
+    throw new Error("Invalid question format");
+  } catch (error) {
+    console.error("Question generation error:", error.message);
+    return getUniqueBackupQuestion(previousQuestions);
+  }
+};
+
+// POST Route: Handle question generation
 export async function POST(req) {
   try {
-    let body;
-    try {
-      body = await req.json();
-    } catch (error) {
-      return NextResponse.json(
-        { error: "Invalid JSON in request body" },
-        { status: 400 }
-      );
-    }
+    const { currentAnswers = [], previousQuestions = [] } = await req.json();
 
-    const { currentAnswers = [], previousQuestions = [] } = body;
+    const question =
+      previousQuestions.length === 0
+        ? getUniqueBackupQuestion([])
+        : await generateQuestion(currentAnswers, previousQuestions);
 
-    // First question
-    if (previousQuestions.length === 0) {
-      return NextResponse.json({
-        question: "What aspects of work are most important to you?",
-        options: [
-          {
-            text: "Making a meaningful impact on society",
-            traits: ["social_impact", "helping_others"],
-          },
-          {
-            text: "Innovation and creative expression",
-            traits: ["innovation", "creative"],
-          },
-          {
-            text: "Financial success and stability",
-            traits: ["financial_focus", "stability"],
-          },
-          {
-            text: "Learning and intellectual challenge",
-            traits: ["learning", "intellectual"],
-          },
-        ],
-        reasoning: "Understanding core work values",
-        id: 0,
-      });
-    }
-
-    try {
-      const completion = await groq.chat.completions.create({
-        messages: [
-          {
-            role: "system",
-            content: `You are a career assessment AI. Generate a follow-up question based on previous answers.
-              Return ONLY a JSON object in this exact format:
-              {
-                "question": "your career-focused question here",
-                "options": [
-                  {"text": "descriptive answer 1", "traits": ["trait1", "trait2"]},
-                  {"text": "descriptive answer 2", "traits": ["trait3", "trait4"]},
-                  {"text": "descriptive answer 3", "traits": ["trait5", "trait6"]},
-                  {"text": "descriptive answer 4", "traits": ["trait7", "trait8"]}
-                ],
-                "reasoning": "brief explanation of question relevance"
-              }
-              
-              Rules:
-              1. Each option MUST have exactly 2 traits
-              2. Question must be unique and different from: ${previousQuestions
-                .map((q) => q.question)
-                .join(", ")}
-              3. Focus on career preferences, work style, and professional traits
-              4. Make traits specific and career-relevant
-              5. No additional text or formatting outside the JSON object`,
-          },
-          {
-            role: "user",
-            content: `Previous answers: ${JSON.stringify(currentAnswers)}
-              Generate a unique career assessment question.`,
-          },
-        ],
-        model: CONFIG.MODEL,
-        temperature: CONFIG.TEMPERATURES.QUESTIONS,
-        max_tokens: CONFIG.MAX_TOKENS.QUESTIONS,
-      });
-
-      if (!completion?.choices?.[0]?.message?.content) {
-        throw new Error("Invalid AI response structure");
-      }
-
-      const aiResponse = safeJSONParse(completion.choices[0].message.content);
-      validateQuestionResponse(aiResponse, previousQuestions);
-
-      return NextResponse.json({
-        ...aiResponse,
-        id: previousQuestions.length + 1,
-      });
-    } catch (error) {
-      console.error("AI Generation Error:", error);
-
-      // Use backup question
-      const unusedBackupQuestions = backupQuestions.filter(
-        (q) =>
-          !previousQuestions.some(
-            (prevQ) => prevQ.question.toLowerCase() === q.question.toLowerCase()
-          )
-      );
-
-      if (unusedBackupQuestions.length > 0) {
-        return NextResponse.json({
-          ...unusedBackupQuestions[0],
-          id: previousQuestions.length + 1,
-        });
-      }
-
-      // Final fallback question
-      return NextResponse.json({
-        question: "What type of projects do you enjoy working on?",
-        options: [
-          {
-            text: "Technical and analytical projects",
-            traits: ["technical", "analytical"],
-          },
-          {
-            text: "Creative and design-focused work",
-            traits: ["creative", "design_oriented"],
-          },
-          {
-            text: "People-focused and communication tasks",
-            traits: ["interpersonal", "communicative"],
-          },
-          {
-            text: "Strategic planning and organization",
-            traits: ["strategic", "organizational"],
-          },
-        ],
-        reasoning: "Understanding project preferences and work style",
-        id: previousQuestions.length + 1,
-      });
-    }
+    return NextResponse.json({ ...question, id: previousQuestions.length + 1 });
   } catch (error) {
-    console.error("Route Error:", error);
+    console.error("POST Route Error:", error.message);
     return NextResponse.json(
       { error: "Failed to process request" },
       { status: 500 }
@@ -296,55 +189,37 @@ export async function POST(req) {
   }
 }
 
+// PUT Route: Handle career matching
 export async function PUT(req) {
   try {
-    let body;
-    try {
-      body = await req.json();
-    } catch (error) {
-      return NextResponse.json(
-        { error: "Invalid JSON in request body" },
-        { status: 400 }
-      );
-    }
+    const { answers, traits } = await req.json();
 
-    const { answers, traits } = body;
-
-    if (!Array.isArray(answers) || typeof traits !== "object") {
-      return NextResponse.json(
-        { error: "Invalid input format" },
-        { status: 400 }
-      );
-    }
+    const prompt = `Generate 5 career recommendations as a JSON array. Each must include:
+{
+  "title": "Career Title",
+  "description": "Career Description",
+  "matchReasoning": "Reason for match",
+  "confidenceScore": 0-1,
+  "requiredSkills": ["Skill1", "Skill2"],
+  "growthPotential": "High/Medium/Low",
+  "workEnvironment": "Workplace setting",
+  "educationPath": "Required education",
+  "relatedCareers": ["Career1", "Career2"],
+  "industryTrends": "Current trends",
+  "workLifeBalance": "Good/Fair/Poor",
+  "specializations": ["Specialization1", "Specialization2"]
+}
+Ensure recommendations span across diverse professional and non-professional fields, based on the traits provided. Do not focus disproportionately on any single field.  
+`;
 
     const completion = await groq.chat.completions.create({
       messages: [
-        {
-          role: "system",
-          content: `You are a career matching AI. Based on the user's answers and traits, generate 5 career recommendations.
-            Return ONLY a JSON array in this exact format:
-            [
-              {
-                "title": "Career Title",
-                "description": "Brief 1-2 sentence description",
-                "matchReasoning": "Why this matches their traits",
-                "confidenceScore": 0.XX,
-                "requiredSkills": ["skill1", "skill2", "skill3"],
-                "growthPotential": "Brief growth projection",
-                "workEnvironment": "Typical work environment",
-                "educationPath": "Required education/certifications",
-                "relatedCareers": ["related1", "related2", "related3"]
-              }
-            ]
-            Include exactly 5 career matches.
-            Make recommendations specific and well-reasoned based on their traits.
-            No additional text or formatting outside the JSON array.`,
-        },
+        { role: "system", content: prompt },
         {
           role: "user",
-          content: `User answers: ${JSON.stringify(answers)}
-            Trait scores: ${JSON.stringify(traits)}
-            Generate 5 personalized career matches.`,
+          content: `Answers: ${JSON.stringify(
+            answers
+          )}, Traits: ${JSON.stringify(traits)}`,
         },
       ],
       model: CONFIG.MODEL,
@@ -352,25 +227,15 @@ export async function PUT(req) {
       max_tokens: CONFIG.MAX_TOKENS.CAREERS,
     });
 
-    if (!completion?.choices?.[0]?.message?.content) {
-      throw new Error("Invalid AI response structure");
-    }
+    const matches = safeJSONParse(completion.choices[0]?.message?.content);
+    if (Array.isArray(matches) && matches.length === 5)
+      return NextResponse.json(matches);
 
-    const careerMatches = safeJSONParse(completion.choices[0].message.content);
-
-    if (!Array.isArray(careerMatches) || careerMatches.length !== 5) {
-      throw new Error("Invalid career matches format");
-    }
-
-    return NextResponse.json(careerMatches);
+    throw new Error("Invalid career match format");
   } catch (error) {
-    console.error("Career Matching Error:", error);
+    console.error("PUT Route Error:", error.message);
     return NextResponse.json(
-      {
-        error: "Failed to generate career matches. Please try again.",
-        details:
-          process.env.NODE_ENV === "development" ? error.stack : undefined,
-      },
+      { error: "Failed to generate career matches" },
       { status: 500 }
     );
   }
