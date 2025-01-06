@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User, LogOut, Settings, ChevronDown } from "lucide-react";
 
 const NavLink = ({ href, children }) => (
   <a
@@ -20,8 +20,50 @@ const MobileNavLink = ({ href, children }) => (
   </a>
 );
 
+const ProfileDropdown = ({ isOpen, setIsOpen }) => (
+  <div className="relative">
+    <button
+      onClick={() => setIsOpen(!isOpen)}
+      className="flex items-center gap-2 px-4 py-2 bg-gray-700/50 hover:bg-gray-700/70 rounded-xl text-gray-300 transition-colors"
+    >
+      <div className="w-6 h-6 rounded-full bg-gradient-to-r from-emerald-500 to-blue-500 flex items-center justify-center text-white text-sm font-medium">
+        J
+      </div>
+      <span className="hidden sm:inline">Adhil Akbar</span>
+      <ChevronDown
+        className={`w-4 h-4 transition-transform ${isOpen ? "rotate-180" : ""}`}
+      />
+    </button>
+
+    {isOpen && (
+      <div className="absolute right-0 mt-2 w-48 py-2 bg-gray-800/95 backdrop-blur-sm rounded-xl border border-gray-700/30 shadow-lg">
+        <a
+          href="/profile"
+          className="flex items-center gap-2 px-4 py-2 text-gray-300 hover:text-emerald-400 hover:bg-gray-700/50 transition-colors"
+        >
+          <User className="w-4 h-4" />
+          Profile
+        </a>
+        {/* <a
+          href="/settings"
+          className="flex items-center gap-2 px-4 py-2 text-gray-300 hover:text-emerald-400 hover:bg-gray-700/50 transition-colors"
+        >
+          <Settings className="w-4 h-4" />
+          Settings
+        </a> */}
+        <hr className="my-2 border-gray-700/30" />
+        <button className="w-full flex items-center gap-2 px-4 py-2 text-gray-300 hover:text-red-400 hover:bg-gray-700/50 transition-colors">
+          <LogOut className="w-4 h-4" />
+          Sign Out
+        </button>
+      </div>
+    )}
+  </div>
+);
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   return (
     <div className="px-4 pt-4">
@@ -44,6 +86,10 @@ const Navbar = () => {
                   Get Started
                 </button>
               </a>
+              <ProfileDropdown
+                isOpen={isProfileOpen}
+                setIsOpen={setIsProfileOpen}
+              />
             </div>
 
             <button
@@ -64,11 +110,16 @@ const Navbar = () => {
                 <MobileNavLink href="/">Home</MobileNavLink>
                 {/* <MobileNavLink href="/paths">Career Paths</MobileNavLink>
                 <MobileNavLink href="/resources">Resources</MobileNavLink> */}
+                <MobileNavLink href="/profile">Profile</MobileNavLink>
+                {/* <MobileNavLink href="/settings">Settings</MobileNavLink> */}
                 <a href="/assessment">
                   <button className="bg-blue-500/20 text-blue-400 px-6 py-2 rounded-lg hover:bg-blue-500/30 transition-colors w-full">
                     Get Started
                   </button>
                 </a>
+                <button className="text-gray-400 hover:text-red-400 transition-colors w-full text-center py-2">
+                  Sign Out
+                </button>
               </div>
             </div>
           )}
