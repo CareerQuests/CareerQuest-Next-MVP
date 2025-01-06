@@ -40,7 +40,7 @@ const ProfilePage = () => {
   const [user, setUser] = useState({
     firstName: "Adhil",
     lastName: "Akbar",
-    email: "356adhil@gmail.com",
+    email: "sample@gmail.com",
     profileImage: null,
     role: "candidate",
     createdAt: "2024-01-15",
