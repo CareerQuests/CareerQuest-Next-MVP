@@ -8,15 +8,15 @@ const steps = [
     title: "Take Assessment",
     description: "Complete our quick AI assessment to discover your potential",
   },
-  // {
-  //   icon: UserCircle2,
-  //   title: "Build Profile",
-  //   description: "Create your profile to highlight your unique strengths",
-  // },
   {
     icon: Cpu,
     title: "AI Analysis",
     description: "Let our AI find your perfect career matches",
+  },
+  {
+    icon: UserCircle2,
+    title: "Build Profile",
+    description: "Create your profile to highlight your unique strengths",
   },
   {
     icon: Rocket,

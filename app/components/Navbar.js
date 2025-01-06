@@ -37,8 +37,8 @@ const Navbar = () => {
 
             <div className="hidden md:flex items-center space-x-8">
               <NavLink href="/">Home</NavLink>
-              <NavLink href="/paths">Career Paths</NavLink>
-              <NavLink href="/resources">Resources</NavLink>
+              {/* <NavLink href="/paths">Career Paths</NavLink>
+              <NavLink href="/resources">Resources</NavLink> */}
               <a href="/assessment">
                 <button className="bg-blue-500/20 text-blue-400 px-6 py-2 rounded-lg hover:bg-blue-500/30 transition-colors">
                   Get Started
@@ -62,8 +62,8 @@ const Navbar = () => {
             <div className="md:hidden mt-4 pb-4 border-t border-gray-700/30">
               <div className="flex flex-col space-y-4 pt-4">
                 <MobileNavLink href="/">Home</MobileNavLink>
-                <MobileNavLink href="/paths">Career Paths</MobileNavLink>
-                <MobileNavLink href="/resources">Resources</MobileNavLink>
+                {/* <MobileNavLink href="/paths">Career Paths</MobileNavLink>
+                <MobileNavLink href="/resources">Resources</MobileNavLink> */}
                 <a href="/assessment">
                   <button className="bg-blue-500/20 text-blue-400 px-6 py-2 rounded-lg hover:bg-blue-500/30 transition-colors w-full">
                     Get Started
