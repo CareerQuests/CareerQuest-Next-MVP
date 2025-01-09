@@ -8,7 +8,7 @@ export default function CareerChat() {
     {
       type: "bot",
       content:
-        "Hello! I'm your AI career advisor. I can help you discover career paths through our assessment process or answer specific career-related questions. Would you like to start with the assessment or do you have specific questions?",
+        "Hello! I&apos;m your AI career advisor. I can help you discover career paths through our assessment process or answer specific career-related questions. Would you like to start with the assessment or do you have specific questions?",
     },
   ]);
   const [input, setInput] = useState("");
