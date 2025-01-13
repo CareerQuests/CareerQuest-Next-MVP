@@ -314,11 +314,11 @@ const generateQuestion = async (currentAnswers, previousQuestions) => {
 
 // Analyze trait patterns
 const analyzeTraitPatterns = async (answers) => {
-  const prompt = `Analyze these career assessment answers and provide a JSON response:
+  const prompt = `Analyze these career assessment answers and provide a JSON response with both analysis and career recommendations:
 
 ${JSON.stringify(answers)}
 
-Return ONLY a JSON object with this exact structure (no additional text or markdown):
+Return ONLY a JSON object with this exact structure (no additional text or markdown), and EXACTLY 5 career matches (no more, no less):
 {
   "dominant_dimensions": ["DIMENSION1", "DIMENSION2"],
   "trait_patterns": {
@@ -335,7 +335,15 @@ Return ONLY a JSON object with this exact structure (no additional text or markd
     "technical_orientation": number,
     "creative_orientation": number,
     "service_orientation": number
-  }
+  },
+  "career_matches": [
+    {
+      "title": "Career Title",
+      "description": "Detailed description of the role",
+      "confidenceScore": number between 0 and 1,
+      "matchReasoning": "Explanation of why this career matches the assessment"
+    }
+  ]
 }`;
 
   try {
@@ -344,7 +352,7 @@ Return ONLY a JSON object with this exact structure (no additional text or markd
         {
           role: "system",
           content:
-            "You are a career analysis expert. Provide responses in valid JSON format only.",
+            "You are a career analysis expert. Provide responses in valid JSON format only. Always return exactly 5 career matches.",
         },
         { role: "user", content: prompt },
       ],
@@ -358,6 +366,14 @@ Return ONLY a JSON object with this exact structure (no additional text or markd
 
     if (!parsedResponse) {
       throw new Error("Failed to parse analysis response");
+    }
+
+    // Validate that exactly 5 career matches are returned
+    if (
+      !parsedResponse.career_matches ||
+      parsedResponse.career_matches.length !== 5
+    ) {
+      throw new Error("Response must contain exactly 5 career matches");
     }
 
     return parsedResponse;

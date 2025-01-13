@@ -4,9 +4,48 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background: linear-gradient(to bottom right, #ebf8ff, #e9d8fd);
+  position: relative;
+  min-height: 100vh;
+  margin: 0;
+  background: radial-gradient(ellipse at top, #0c1222, #000000);
 }
 
+/* Grid overlay */
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.02) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(
+    ellipse 100% 100% at 50% 0%,
+    black 70%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* Colored blurs */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+      600px circle at -128px 0px,
+      rgba(52, 211, 153, 0.2) 0%,
+      transparent 80%
+    ),
+    radial-gradient(
+      600px circle at calc(100% + 128px) 100%,
+      rgba(59, 130, 246, 0.2) 0%,
+      transparent 80%
+    );
+}
 @layer components {
   .auth-button {
     @apply w-full flex justify-center py-3 px-4 border border-transparent rounded-lg 

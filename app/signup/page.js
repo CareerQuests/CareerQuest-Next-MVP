@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { FaUser, FaEnvelope } from "react-icons/fa";
-import { FloatingElements } from "../components/assessment/FloatingElements";
+import { FloatingElements } from "../components/FloatingElements";
 import InputField from "../components/InputField";
 import PasswordInput from "../components/auth/PasswordInput";
 

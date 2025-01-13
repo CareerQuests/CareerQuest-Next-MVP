@@ -1,6 +1,6 @@
 "use client";
 
-import { FloatingElements } from "../components/assessment/FloatingElements";
+import { FloatingElements } from "../components/FloatingElements";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import SearchCareer from "../components/SearchCareer";
