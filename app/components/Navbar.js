@@ -72,9 +72,11 @@ const Navbar = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <div className="h-8 w-8 bg-gradient-to-br from-emerald-400/20 to-blue-400/20 rounded-lg border border-emerald-400/30" />
-              <span className="text-xl font-semibold text-gray-100">
-                CareerQuest
-              </span>
+              <NavLink href="/">
+                <span className="text-xl font-semibold text-gray-100">
+                  CareerQuest
+                </span>
+              </NavLink>
             </div>
 
             <div className="hidden md:flex items-center space-x-8">
