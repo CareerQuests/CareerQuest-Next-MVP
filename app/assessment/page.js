@@ -1,37 +1,100 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Brain, ChevronRight, RefreshCcw, Award, Loader2 } from "lucide-react";
+import {
+  Brain,
+  ChevronRight,
+  RefreshCcw,
+  Award,
+  Loader2,
+  Sparkles,
+} from "lucide-react";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 
-const AssessmentCard = ({ question, options, onSelect, isActive }) => {
+const LoadingMessage = () => {
+  const [messageIndex, setMessageIndex] = useState(0);
+
+  const messages = [
+    "Analyzing your response...",
+    "Preparing your next challenge...",
+    "Crafting the perfect question...",
+    "Almost there...",
+    "Calculating career insights...",
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setMessageIndex((prev) => (prev + 1) % messages.length);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="mt-4 text-center">
+      <div className="flex items-center justify-center gap-2 text-emerald-400 mb-2">
+        <Sparkles className="w-4 h-4 animate-pulse" />
+        <span className="font-medium">Journey in Progress</span>
+        <Sparkles className="w-4 h-4 animate-pulse" />
+      </div>
+      <p className="text-gray-400 transition-all duration-300 animate-pulse">
+        {messages[messageIndex]}
+      </p>
+    </div>
+  );
+};
+
+const AssessmentCard = ({
+  question,
+  options,
+  onSelect,
+  isActive,
+  isLoadingNext,
+}) => {
   return (
     <div
       className={`mb-4 p-6 rounded-xl bg-gray-900/50 backdrop-blur-sm transition-all duration-300 border ${
         isActive ? "border-emerald-500/50" : "border-gray-800"
       }`}
     >
-      <div className="flex items-start gap-4 mb-4">
-        <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center">
-          <Brain className="w-5 h-5 text-emerald-400" />
+      {isLoadingNext ? (
+        <div className="flex flex-col items-center justify-center py-8">
+          <div className="relative">
+            <div className="absolute inset-0 bg-emerald-500/20 rounded-full blur-xl animate-pulse"></div>
+            <div className="relative">
+              <Loader2 className="w-12 h-12 text-emerald-400 animate-spin" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Brain className="w-6 h-6 text-emerald-300 animate-pulse" />
+              </div>
+            </div>
+          </div>
+          <LoadingMessage />
         </div>
-        <p className="text-gray-200">{question}</p>
-      </div>
-      <div className="grid grid-cols-1 gap-2 mt-4">
-        {options?.map((option, idx) => (
-          <button
-            key={idx}
-            onClick={() => onSelect(option)}
-            className="p-4 text-left rounded-xl bg-gray-800/40 border border-gray-700/30 
-                     hover:border-emerald-500/40 text-gray-300 hover:text-white 
-                     transition-all flex items-center justify-between group"
-            disabled={!isActive}
-          >
-            <span>{option.text}</span>
-            <ChevronRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity text-emerald-400" />
-          </button>
-        ))}
-      </div>
+      ) : (
+        <>
+          <div className="flex items-start gap-4 mb-4">
+            <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center">
+              <Brain className="w-5 h-5 text-emerald-400" />
+            </div>
+            <p className="text-gray-200">{question}</p>
+          </div>
+          <div className="grid grid-cols-1 gap-2 mt-4">
+            {options?.map((option, idx) => (
+              <button
+                key={idx}
+                onClick={() => onSelect(option)}
+                className="p-4 text-left rounded-xl bg-gray-800/40 border border-gray-700/30 
+                         hover:border-emerald-500/40 text-gray-300 hover:text-white 
+                         transition-all flex items-center justify-between group"
+                disabled={!isActive}
+              >
+                <span>{option.text}</span>
+                <ChevronRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity text-emerald-400" />
+              </button>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 };
@@ -96,6 +159,7 @@ const AssessmentChat = () => {
   const [careers, setCareers] = useState([]);
   const [isComplete, setIsComplete] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingNext, setIsLoadingNext] = useState(false);
   const [error, setError] = useState(null);
   const [isLoadingCareers, setIsLoadingCareers] = useState(false);
 
@@ -144,6 +208,8 @@ const AssessmentChat = () => {
   };
 
   const handleOptionSelect = async (option) => {
+    setIsLoadingNext(true);
+
     const newAnswers = [
       ...answers,
       {
@@ -174,8 +240,10 @@ const AssessmentChat = () => {
       ]);
       await fetchCareerMatches(newAnswers);
     } else {
-      fetchNextQuestion();
+      await fetchNextQuestion();
     }
+
+    setIsLoadingNext(false);
   };
 
   const fetchCareerMatches = async (finalAnswers) => {
@@ -211,6 +279,7 @@ const AssessmentChat = () => {
     setCareers([]);
     setIsComplete(false);
     setError(null);
+    setIsLoadingNext(false);
     fetchNextQuestion();
   };
 
@@ -252,7 +321,8 @@ const AssessmentChat = () => {
                 question={currentQuestion.question}
                 options={currentQuestion.options}
                 onSelect={handleOptionSelect}
-                isActive={true}
+                isActive={!isLoadingNext}
+                isLoadingNext={isLoadingNext}
               />
             )
           ) : (
